@@ -4,6 +4,7 @@
     const root = document.getElementById("touch-dashboard");
     if (!root) return;
     document.body.classList.add("fpp-touch-dashboard-fullscreen");
+    document.documentElement.classList.add("fpp-touch-dashboard-fullscreen");
     if (!document.querySelector('meta[name="viewport"]')) {
         const viewport = document.createElement("meta");
         viewport.name = "viewport";

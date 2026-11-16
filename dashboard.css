@@ -27,6 +27,7 @@
     overflow: hidden;
 }
 
+html.fpp-touch-dashboard-fullscreen,
 body.fpp-touch-dashboard-fullscreen {
     height: 100vh;
     height: 100dvh;
@@ -1363,6 +1364,7 @@ body.fpp-touch-dashboard-fullscreen {
         display: block;
         height: auto;
         min-height: 100vh;
+        min-height: 100dvh;
         overflow: visible;
     }
 
@@ -1370,10 +1372,19 @@ body.fpp-touch-dashboard-fullscreen {
         display: block;
     }
 
+    html.fpp-touch-dashboard-fullscreen {
+        height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
     body.fpp-touch-dashboard-fullscreen {
         height: auto;
         min-height: 100vh;
-        overflow: auto;
+        min-height: 100dvh;
+        overflow: visible;
     }
 
     .touch-dashboard .right-pane {
@@ -1395,12 +1406,20 @@ body.fpp-touch-dashboard-fullscreen {
     }
 }
 
-@media (orientation: landscape) and (max-height: 600px) and (max-width: 900px) {
+@media (max-height: 700px) and (max-width: 1000px) {
+    html.fpp-touch-dashboard-fullscreen {
+        height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
     body.fpp-touch-dashboard-fullscreen {
         height: auto;
         min-height: 100vh;
         min-height: 100dvh;
-        overflow: auto;
+        overflow: visible;
     }
 
     .touch-dashboard {
