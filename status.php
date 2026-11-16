@@ -1,4 +1,4 @@
-<div class="touch-dashboard" id="touch-dashboard">
+<div class="touch-dashboard" id="touch-dashboard" data-season="christmas">
     <div class="festive-lights" aria-hidden="true">
         <span class="bulb-red"></span>
         <span class="bulb-green"></span>
@@ -214,6 +214,13 @@
             </div>
             <label class="field-label" for="show-name-input">Show name</label>
             <input class="settings-input" id="show-name-input" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Theurer Family Lights">
+
+            <label class="field-label settings-season-label" for="season-select">Season</label>
+            <select class="settings-input" id="season-select">
+                <option value="christmas">Christmas</option>
+                <option value="halloween">Halloween</option>
+                <option value="spring">Spring</option>
+            </select>
 
             <label class="field-label settings-address-label" for="instance-address">Falcon Player IP address or URL</label>
             <input class="settings-input" id="instance-address" type="text" inputmode="url" autocomplete="url" spellcheck="false" placeholder="192.168.1.50">

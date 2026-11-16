@@ -11,6 +11,10 @@
         document.head.appendChild(viewport);
     }
     const settingsStorageKey = "fppTouchDashboard.settings.v1";
+    const seasonNames = ["christmas", "halloween", "spring"];
+    const springFlowers = [0x1F338, 0x1F33C, 0x1F337, 0x1F33A, 0x1F33B, 0x1F339]
+        .map(function (codePoint) { return String.fromCodePoint(codePoint); });
+    const ghost = String.fromCodePoint(0x1F47B);
 
     const elements = {
         connection: document.getElementById("connection-state"),
@@ -39,7 +43,9 @@
         settingsClose: document.getElementById("settings-close"),
         settingsCancel: document.getElementById("settings-cancel"),
         settingsShowName: document.getElementById("show-name-input"),
+        settingsSeason: document.getElementById("season-select"),
         settingsAddress: document.getElementById("instance-address"),
+        seasonalDecoration: root.querySelector(".festive-lights"),
         settingsMessage: document.getElementById("settings-message"),
         screenTabs: root.querySelector(".screen-tabs"),
         scheduleList: document.getElementById("schedule-list"),
@@ -54,7 +60,8 @@
 
     let settings = {
         showName: "",
-        instanceUrl: window.location.origin
+        instanceUrl: window.location.origin,
+        season: "christmas"
     };
     let playerStatus = null;
     let playlistNames = [];
@@ -109,7 +116,19 @@
         elements.showName.textContent = settings.showName || "Falcon Player";
         elements.showName.href = settings.instanceUrl;
         elements.settingsShowName.value = settings.showName;
+        elements.settingsSeason.value = settings.season;
         elements.settingsAddress.value = settings.instanceUrl;
+        root.dataset.season = settings.season;
+        elements.seasonalDecoration.dataset.season = settings.season;
+        Array.from(elements.seasonalDecoration.children).forEach(function (decoration, index) {
+            if (settings.season === "halloween") {
+                decoration.textContent = ghost;
+            } else if (settings.season === "spring") {
+                decoration.textContent = springFlowers[index % springFlowers.length];
+            } else {
+                decoration.textContent = "";
+            }
+        });
     }
 
     function loadSettings() {
@@ -122,6 +141,7 @@
                 }
                 settings.showName = typeof parsed.showName === "string" ? parsed.showName.trim() : "";
                 settings.instanceUrl = normalizeInstanceAddress(parsed.instanceUrl || window.location.origin);
+                settings.season = seasonNames.includes(parsed.season) ? parsed.season : "christmas";
             }
         } catch (error) {
             setMessage("Could not load saved dashboard settings: " + error.message, true);
@@ -1568,7 +1588,10 @@
             instanceUrl = normalizeInstanceAddress(elements.settingsAddress.value);
             const nextSettings = {
                 showName: elements.settingsShowName.value.trim(),
-                instanceUrl: instanceUrl
+                instanceUrl: instanceUrl,
+                season: seasonNames.includes(elements.settingsSeason.value)
+                    ? elements.settingsSeason.value
+                    : "christmas"
             };
             window.localStorage.setItem(settingsStorageKey, JSON.stringify(nextSettings));
 
