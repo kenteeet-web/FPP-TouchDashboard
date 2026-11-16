@@ -1,12 +1,12 @@
 {
-  "documentation": "https://github.com/kenteeet-web/FPP-TouchDashobard",
-  "repoName": "FPP-TouchDashobard",
+  "documentation": "https://github.com/kenteeet-web/FPP-TouchDashboard",
+  "repoName": "FPP-TouchDashboard",
   "name": "FPP Touch Dashboard",
   "author": "kenteeet-web",
   "description": "A touch-friendly Falcon Player dashboard for playback, playlist, and volume controls.",
-  "homeURL": "https://github.com/kenteeet-web/FPP-TouchDashobard",
-  "srcURL": "https://github.com/kenteeet-web/FPP-TouchDashobard.git",
-  "bugURL": "https://github.com/kenteeet-web/FPP-TouchDashobard/issues",
+  "homeURL": "https://github.com/kenteeet-web/FPP-TouchDashboard",
+  "srcURL": "https://github.com/kenteeet-web/FPP-TouchDashboard.git",
+  "bugURL": "https://github.com/kenteeet-web/FPP-TouchDashboard/issues",
   "allowUpdates": 1,
   "releaseNotesStyle": "gitHistory",
   "privacy": {
