@@ -1,0 +1,30 @@
+{
+  "documentation": "https://github.com/kenteeet-web/FPP-TouchDashobard",
+  "repoName": "FPP-TouchDashobard",
+  "name": "FPP Touch Dashboard",
+  "author": "kenteeet-web",
+  "description": "A touch-friendly Falcon Player dashboard for playback, playlist, and volume controls.",
+  "homeURL": "https://github.com/kenteeet-web/FPP-TouchDashobard",
+  "srcURL": "https://github.com/kenteeet-web/FPP-TouchDashobard.git",
+  "bugURL": "https://github.com/kenteeet-web/FPP-TouchDashobard/issues",
+  "allowUpdates": 1,
+  "releaseNotesStyle": "gitHistory",
+  "privacy": {
+    "summary": "The show name and configured FPP address are saved in this browser. Player requests go only to the FPP address selected by the user.",
+    "sends": [],
+    "collects": [],
+    "sensors": [],
+    "remoteAccess": "none",
+    "systemChanges": [],
+    "closedCode": false,
+    "other": "The user may configure a different FPP address for the dashboard to control."
+  },
+  "versions": [
+    {
+      "minFPPVersion": "9.0",
+      "maxFPPVersion": "0",
+      "branch": "main",
+      "sha": ""
+    }
+  ]
+}
