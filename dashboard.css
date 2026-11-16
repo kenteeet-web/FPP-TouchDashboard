@@ -1406,7 +1406,7 @@ body.fpp-touch-dashboard-fullscreen {
     }
 }
 
-@media (max-height: 700px) and (max-width: 1000px) {
+@media (max-height: 700px) and (max-width: 1100px) {
     html.fpp-touch-dashboard-fullscreen {
         height: auto;
         min-height: 100vh;
@@ -1460,7 +1460,7 @@ body.fpp-touch-dashboard-fullscreen {
     }
 }
 
-@media (orientation: landscape) and (max-height: 600px) and (max-width: 1000px) {
+@media (orientation: landscape) and (max-height: 600px) and (max-width: 1100px) {
     .touch-dashboard {
         padding: 6px 10px 8px;
     }
