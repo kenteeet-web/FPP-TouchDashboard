@@ -93,6 +93,10 @@
                 <div class="volume-control">
                     <span class="volume-icon" aria-hidden="true">&#x266A;</span>
                     <input id="volume-control" type="range" min="0" max="100" step="1" value="0" aria-label="Player volume">
+                    <label class="repeat-toggle">
+                        <input id="repeat-playlist" type="checkbox" aria-label="Repeat playlist">
+                        <span>Repeat</span>
+                    </label>
                 </div>
 
                 <p class="field-label playback-label">Playback controls</p>
