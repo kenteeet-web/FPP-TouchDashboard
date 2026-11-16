@@ -111,6 +111,17 @@
     margin-bottom: 22px;
 }
 
+.touch-dashboard .dashboard-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.touch-dashboard .dashboard-title-link:hover,
+.touch-dashboard .dashboard-title-link:focus-visible {
+    color: var(--green);
+    text-decoration: underline;
+}
+
 .touch-dashboard .dashboard-actions {
     gap: 10px;
 }
