@@ -462,11 +462,17 @@ body.fpp-touch-dashboard-fullscreen {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 16px;
-    align-items: stretch;
+    align-items: start;
 }
 
 .touch-dashboard .controls-column {
     min-width: 0;
+    position: sticky;
+    top: 16px;
+    z-index: 2;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     padding: clamp(16px, 2.5vw, 24px);
 }
 
@@ -1188,6 +1194,13 @@ body.fpp-touch-dashboard-fullscreen {
 @media (max-width: 480px) {
     .touch-dashboard .dashboard-grid {
         grid-template-columns: 1fr;
+    }
+
+    .touch-dashboard .controls-column {
+        position: static;
+        z-index: auto;
+        max-height: none;
+        overflow: visible;
     }
 
     .touch-dashboard .playback-controls {
