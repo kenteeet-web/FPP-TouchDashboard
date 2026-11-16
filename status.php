@@ -21,7 +21,7 @@
     </div>
     <header class="dashboard-header">
         <div>
-            <h1><a class="dashboard-title-link" id="show-name" href="" target="_blank" rel="noopener noreferrer" title="Open the full FPP interface in a new tab">Touch Dashboard</a></h1>
+            <h1><a class="dashboard-title-link" id="show-name" href="/" target="_blank" rel="noopener noreferrer" title="Open the full FPP interface in a new tab">Falcon Player</a></h1>
         </div>
         <div class="dashboard-actions">
             <button class="settings-button" id="settings-open" type="button" aria-label="Dashboard settings" title="Dashboard settings">
@@ -171,7 +171,20 @@
                             <button class="small-button" id="multisync-refresh" type="button">Refresh</button>
                         </div>
                         <p class="screen-message" id="multisync-message" role="status" aria-live="polite"></p>
-                        <div class="multisync-list" id="multisync-list"></div>
+                        <div class="multisync-table-wrap">
+                            <table class="multisync-table" aria-label="MultiSync FPP controllers">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Hostname</th>
+                                        <th scope="col">IP Address</th>
+                                        <th scope="col">Platform</th>
+                                        <th scope="col">Mode</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="multisync-list"></tbody>
+                            </table>
+                        </div>
                     </section>
 
                     <section class="screen-view" id="screen-fpp-settings" role="tabpanel" aria-labelledby="tab-fpp-settings" data-screen-view="fpp-settings" hidden>

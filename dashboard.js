@@ -3,6 +3,13 @@
 
     const root = document.getElementById("touch-dashboard");
     if (!root) return;
+    document.body.classList.add("fpp-touch-dashboard-fullscreen");
+    if (!document.querySelector('meta[name="viewport"]')) {
+        const viewport = document.createElement("meta");
+        viewport.name = "viewport";
+        viewport.content = "width=device-width, initial-scale=1";
+        document.head.appendChild(viewport);
+    }
     const settingsStorageKey = "fppTouchDashboard.settings.v1";
 
     const elements = {
@@ -99,7 +106,7 @@
     }
 
     function applySettings() {
-        elements.showName.textContent = settings.showName || "Touch Dashboard";
+        elements.showName.textContent = settings.showName || "Falcon Player";
         elements.showName.href = settings.instanceUrl;
         elements.settingsShowName.value = settings.showName;
         elements.settingsAddress.value = settings.instanceUrl;
@@ -931,35 +938,52 @@
     }
 
     function systemAddress(system) {
-        return String(system && (system.ip || system.address) || "").trim();
+        return String(system && (system.ip || system.address) || "").trim().replace(/^\[|\]$/g, "");
     }
 
     function isLocalSystem(system) {
         return String(system && system.local) === "1" || Boolean(system && system.local === true);
     }
 
-    function uniqueSystemsByAddress(systems) {
-        const indexesByAddress = Object.create(null);
+    function isFppSystem(system) {
+        const typeId = Number(system.typeId);
+        return !Number.isFinite(typeId) || (typeId >= 1 && typeId < 128);
+    }
+
+    function isBrowserReachableAddress(address) {
+        const normalized = String(address || "").toLowerCase();
+        return Boolean(normalized)
+            && normalized.indexOf("%") < 0
+            && !normalized.startsWith("fe80:")
+            && !normalized.startsWith("127.")
+            && normalized !== "::1"
+            && normalized !== "localhost";
+    }
+
+    function isIPv4Address(address) {
+        return /^\d{1,3}(?:\.\d{1,3}){3}$/.test(address);
+    }
+
+    function uniqueReachableSystems(systems) {
+        const orderedSystems = systems.filter(function (system) {
+            return system && typeof system === "object"
+                && isFppSystem(system)
+                && isBrowserReachableAddress(systemAddress(system));
+        }).slice().sort(function (left, right) {
+            return Number(isIPv4Address(systemAddress(right))) - Number(isIPv4Address(systemAddress(left)));
+        });
+        const seenAddresses = Object.create(null);
+        const seenSystems = Object.create(null);
         const uniqueSystems = [];
-        systems.forEach(function (system) {
-            if (!system || typeof system !== "object") return;
+        orderedSystems.forEach(function (system) {
             const address = systemAddress(system);
-            const key = address.replace(/^\[|\]$/g, "").toLowerCase();
-            if (!key) {
-                uniqueSystems.push(system);
-                return;
-            }
-
-            if (!Object.prototype.hasOwnProperty.call(indexesByAddress, key)) {
-                indexesByAddress[key] = uniqueSystems.length;
-                uniqueSystems.push(system);
-                return;
-            }
-
-            const existingIndex = indexesByAddress[key];
-            if (isLocalSystem(system) && !isLocalSystem(uniqueSystems[existingIndex])) {
-                uniqueSystems[existingIndex] = system;
-            }
+            const addressKey = address.toLowerCase();
+            const identity = system.uuid || system.mac || system.hostname || system.name;
+            const systemKey = identity ? String(identity).trim().toLowerCase() : addressKey;
+            if (seenAddresses[addressKey] || seenSystems[systemKey]) return;
+            seenAddresses[addressKey] = true;
+            seenSystems[systemKey] = true;
+            uniqueSystems.push(system);
         });
         return uniqueSystems;
     }
@@ -978,48 +1002,48 @@
     function renderMultisync(systems, statusData) {
         elements.multisyncList.replaceChildren();
         if (!systems.length) {
-            const empty = document.createElement("p");
-            empty.className = "empty-tracks";
-            empty.textContent = "No other FPP controllers are currently online.";
-            elements.multisyncList.appendChild(empty);
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+            cell.className = "multisync-empty";
+            cell.colSpan = 5;
+            cell.textContent = "No browser-reachable FPP controllers found.";
+            row.appendChild(cell);
+            elements.multisyncList.appendChild(row);
             return;
         }
 
         systems.forEach(function (system) {
-            const address = systemAddress(system) || "Unknown address";
+            const address = systemAddress(system);
             const local = isLocalSystem(system);
             const remoteStatus = local ? playerStatus : statusForAddress(statusData, address);
             const data = remoteStatus && typeof remoteStatus === "object" ? remoteStatus : system;
-            const card = document.createElement("article");
-            card.className = "multisync-card";
-            const heading = document.createElement("div");
-            heading.className = "multisync-card-heading";
-            const name = document.createElement("span");
-            name.className = "multisync-name";
-            name.textContent = String(system.hostname || system.name || (local ? "This player" : address));
-            const state = document.createElement("span");
-            state.className = "multisync-state";
-            state.textContent = String(data.status_name || data.status || "Online");
-            heading.append(name, state);
-
-            const meta = document.createElement("div");
-            meta.className = "multisync-meta";
-            [
-                ["Address", address],
-                ["Mode", system.fppModeString || system.fppMode || data.fppModeString || data.fppMode],
-                ["Type", system.type],
-                ["Model", system.model],
-                ["Version", data.version || system.version],
-                ["Playing", data.current_sequence || data.current_song || (data.current_playlist && data.current_playlist.playlist)],
-                ["Last seen", system.lastSeenStr]
-            ].forEach(function (item) {
-                if (item[1] === undefined || item[1] === null || item[1] === "") return;
-                const value = document.createElement("span");
-                value.textContent = item[0] + ": " + String(item[1]);
-                meta.appendChild(value);
-            });
-            card.append(heading, meta);
-            elements.multisyncList.appendChild(card);
+            const row = document.createElement("tr");
+            const hostname = document.createElement("td");
+            hostname.className = "multisync-hostname";
+            hostname.textContent = String(system.hostname || system.name || "Unknown");
+            const ip = document.createElement("td");
+            ip.className = "multisync-ip";
+            ip.textContent = address;
+            const platform = document.createElement("td");
+            platform.textContent = String(system.platform || system.type || data.platform || data.type || "FPP");
+            const model = system.model || data.model;
+            if (model && String(model) !== platform.textContent) {
+                const detail = document.createElement("span");
+                detail.className = "multisync-platform-detail";
+                detail.textContent = String(model);
+                platform.appendChild(detail);
+            }
+            const mode = document.createElement("td");
+            mode.textContent = String(system.fppModeString || system.fppMode || data.fppModeString || data.fppMode || "Unknown");
+            const status = document.createElement("td");
+            const playing = data.current_sequence || data.current_song
+                || (data.current_playlist && data.current_playlist.playlist);
+            const statusName = String(data.status_name || data.status || (local ? "Online" : "Unreachable"));
+            status.textContent = isPlaying(data) && playing
+                ? "Playing: " + String(playing)
+                : statusName;
+            row.append(hostname, ip, platform, mode, status);
+            elements.multisyncList.appendChild(row);
         });
     }
 
@@ -1029,12 +1053,10 @@
         try {
             const systemData = await api("/fppd/multiSyncSystems");
             if (requestTargetVersion !== targetVersion) return;
-            const systems = uniqueSystemsByAddress(normalizeSystems(systemData));
+            const systems = uniqueReachableSystems(normalizeSystems(systemData));
             const addresses = systems
                 .filter(function (system) {
-                    const typeId = Number(system.typeId);
-                    const isFpp = !Number.isFinite(typeId) || (typeId >= 1 && typeId < 128);
-                    return isFpp && !isLocalSystem(system);
+                    return !isLocalSystem(system);
                 })
                 .map(systemAddress)
                 .filter(Boolean);
