@@ -475,6 +475,7 @@ body.fpp-touch-dashboard-fullscreen {
 .touch-dashboard .dashboard-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     gap: 16px;
     align-items: stretch;
 }
@@ -495,8 +496,14 @@ body.fpp-touch-dashboard-fullscreen {
     min-width: 0;
 }
 
+.touch-dashboard .right-column {
+    display: flex;
+    overflow: hidden;
+}
+
 .touch-dashboard .right-pane {
-    height: 100%;
+    min-height: 0;
+    flex: 1 1 auto;
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -1211,6 +1218,7 @@ body.fpp-touch-dashboard-fullscreen {
 @media (max-width: 480px) {
     .touch-dashboard .dashboard-grid {
         grid-template-columns: 1fr;
+        grid-template-rows: auto;
         align-items: start;
     }
 
@@ -1235,7 +1243,12 @@ body.fpp-touch-dashboard-fullscreen {
     }
 
     .touch-dashboard .right-pane {
-        height: auto;
+        flex: none;
+        overflow: visible;
+    }
+
+    .touch-dashboard .right-column {
+        display: block;
         overflow: visible;
     }
 
