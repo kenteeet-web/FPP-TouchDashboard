@@ -152,19 +152,82 @@ body.fpp-touch-dashboard-fullscreen {
 
 .touch-dashboard .festive-lights[data-season="halloween"] span,
 .touch-dashboard .festive-lights[data-season="spring"] span {
-    width: auto;
-    height: auto;
+    width: clamp(12px, 1.5vw, 18px);
+    height: clamp(14px, 1.7vw, 21px);
     margin: 4px auto 0;
     border-radius: 0;
     background: transparent;
     box-shadow: none;
-    font-size: clamp(16px, 2vw, 24px);
-    line-height: 1;
+    font-size: 0;
 }
 
-.touch-dashboard .festive-lights[data-season="halloween"] span::before,
+.touch-dashboard .festive-lights[data-season="halloween"] span {
+    clip-path: polygon(0 100%, 0 42%, 8% 20%, 25% 7%, 50% 0, 75% 7%, 92% 20%, 100% 42%, 100% 100%, 75% 82%, 50% 100%, 25% 82%);
+    background: #edf0f7;
+}
+
+.touch-dashboard .festive-lights[data-season="halloween"] span::before {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    height: auto;
+    border-radius: 0;
+    background:
+        radial-gradient(circle at 34% 43%, #26313c 0 1px, transparent 1.5px),
+        radial-gradient(circle at 66% 43%, #26313c 0 1px, transparent 1.5px);
+}
+
+.touch-dashboard .festive-lights[data-season="spring"] span:nth-child(5n + 1) {
+    --flower-color: #f398b5;
+}
+
+.touch-dashboard .festive-lights[data-season="spring"] span:nth-child(5n + 2) {
+    --flower-color: #ffd166;
+}
+
+.touch-dashboard .festive-lights[data-season="spring"] span:nth-child(5n + 3) {
+    --flower-color: #a7d57a;
+}
+
+.touch-dashboard .festive-lights[data-season="spring"] span:nth-child(5n + 4) {
+    --flower-color: #c29df2;
+}
+
+.touch-dashboard .festive-lights[data-season="spring"] span:nth-child(5n) {
+    --flower-color: #f17e8e;
+}
+
 .touch-dashboard .festive-lights[data-season="spring"] span::before {
-    display: none;
+    top: 50%;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    display: block;
+    width: 4px;
+    height: 4px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--flower-color);
+    box-shadow:
+        0 -4px 0 0.5px var(--flower-color),
+        3.8px -1.2px 0 0.5px var(--flower-color),
+        2.4px 3.2px 0 0.5px var(--flower-color),
+        -2.4px 3.2px 0 0.5px var(--flower-color),
+        -3.8px -1.2px 0 0.5px var(--flower-color);
+}
+
+.touch-dashboard .festive-lights[data-season="spring"] span::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: #f4c542;
+    content: "";
 }
 
 .touch-dashboard .dashboard-header,
@@ -1563,11 +1626,13 @@ body.fpp-touch-dashboard-fullscreen {
 
     .touch-dashboard .festive-lights[data-season="halloween"] span,
     .touch-dashboard .festive-lights[data-season="spring"] span {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        width: clamp(12px, 1.5vw, 18px);
+        height: clamp(12px, 1.5vw, 18px);
         margin-top: 0;
-        font-size: clamp(14px, 1.5vw, 18px);
+    }
+
+    .touch-dashboard .festive-lights[data-season="halloween"] span {
+        height: clamp(14px, 1.7vw, 21px);
     }
 
     .touch-dashboard .dashboard-header {

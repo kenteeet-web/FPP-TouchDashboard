@@ -13,9 +13,6 @@
     }
     const settingsStorageKey = "fppTouchDashboard.settings.v1";
     const seasonNames = ["christmas", "halloween", "spring"];
-    const springFlowers = [0x1F338, 0x1F33C, 0x1F337, 0x1F33A, 0x1F33B, 0x1F339]
-        .map(function (codePoint) { return String.fromCodePoint(codePoint); });
-    const ghost = String.fromCodePoint(0x1F47B);
 
     const elements = {
         connection: document.getElementById("connection-state"),
@@ -122,15 +119,6 @@
         elements.settingsAddress.value = settings.instanceUrl;
         root.dataset.season = settings.season;
         elements.seasonalDecoration.dataset.season = settings.season;
-        Array.from(elements.seasonalDecoration.children).forEach(function (decoration, index) {
-            if (settings.season === "halloween") {
-                decoration.textContent = ghost;
-            } else if (settings.season === "spring") {
-                decoration.textContent = springFlowers[index % springFlowers.length];
-            } else {
-                decoration.textContent = "";
-            }
-        });
     }
 
     function loadSettings() {
