@@ -362,6 +362,45 @@
     text-align: right;
 }
 
+.touch-dashboard .schedule-time-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(3, 10, 7, 0.42);
+}
+
+.touch-dashboard .schedule-time-card > div {
+    min-width: 0;
+}
+
+.touch-dashboard .schedule-time-label {
+    margin: 0;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.touch-dashboard .schedule-time-note {
+    margin: 4px 0 0;
+    color: var(--text);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.touch-dashboard .schedule-time-value {
+    flex: 0 0 auto;
+    color: var(--green);
+    font-size: 20px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+}
+
 .touch-dashboard .time-value {
     font-variant-numeric: tabular-nums;
     font-size: 20px;
@@ -408,10 +447,379 @@
     align-items: stretch;
 }
 
-.touch-dashboard .controls-column,
-.touch-dashboard .tracks-column {
+.touch-dashboard .controls-column {
     min-width: 0;
     padding: clamp(16px, 2.5vw, 24px);
+}
+
+.touch-dashboard .right-column,
+.touch-dashboard .right-pane {
+    min-width: 0;
+}
+
+.touch-dashboard .right-pane {
+    overflow: hidden;
+}
+
+.touch-dashboard .screen-tabs {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.touch-dashboard .screen-tab {
+    min-width: 0;
+    min-height: 34px;
+    padding: 5px 3px;
+    border: 1px solid #28513a;
+    border-radius: 8px;
+    color: var(--muted);
+    background: var(--surface-raised);
+    font: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+
+.touch-dashboard .screen-tab:hover,
+.touch-dashboard .screen-tab.is-active {
+    color: var(--green);
+    border-color: var(--green);
+}
+
+.touch-dashboard .screen-tab.is-active {
+    background: #153323;
+    box-shadow: inset 0 0 0 1px rgba(57, 189, 114, 0.2);
+}
+
+.touch-dashboard .screen-tab:active {
+    transform: translateY(1px);
+}
+
+.touch-dashboard .screen-content {
+    padding: clamp(14px, 2vw, 20px);
+}
+
+.touch-dashboard .screen-view[hidden] {
+    display: none;
+}
+
+.touch-dashboard .screen-view {
+    min-width: 0;
+}
+
+.touch-dashboard .screen-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.touch-dashboard .screen-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.touch-dashboard .small-button {
+    min-height: 36px;
+    padding: 7px 10px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    color: var(--text);
+    background: var(--surface-raised);
+    font: inherit;
+    font-size: 11px;
+    font-weight: 750;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.touch-dashboard .small-button:hover:not(:disabled) {
+    border-color: #38744f;
+}
+
+.touch-dashboard .small-button:disabled {
+    opacity: 0.55;
+    cursor: wait;
+}
+
+.touch-dashboard .small-button.primary {
+    border-color: var(--green);
+    color: #04150b;
+    background: var(--green);
+}
+
+.touch-dashboard .screen-message {
+    min-height: 18px;
+    margin: 0 0 10px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.touch-dashboard .screen-message.is-error {
+    color: #ff858a;
+}
+
+.touch-dashboard .tracks-header {
+    margin-bottom: 12px;
+}
+
+.touch-dashboard .track-list {
+    max-height: 510px;
+}
+
+.touch-dashboard .schedule-list,
+.touch-dashboard .playlist-browser,
+.touch-dashboard .multisync-list,
+.touch-dashboard .fpp-settings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.touch-dashboard .schedule-card,
+.touch-dashboard .playlist-card,
+.touch-dashboard .multisync-card,
+.touch-dashboard .setting-group {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    background: #0a1712;
+}
+
+.touch-dashboard .schedule-card-heading,
+.touch-dashboard .playlist-summary,
+.touch-dashboard .multisync-card-heading,
+.touch-dashboard .setting-group-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.touch-dashboard .schedule-card-heading {
+    margin-bottom: 10px;
+}
+
+.touch-dashboard .schedule-title,
+.touch-dashboard .playlist-name-label,
+.touch-dashboard .multisync-name,
+.touch-dashboard .setting-group-heading {
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.touch-dashboard .schedule-field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.touch-dashboard .schedule-field,
+.touch-dashboard .setting-field {
+    min-width: 0;
+}
+
+.touch-dashboard .schedule-field label,
+.touch-dashboard .schedule-field-caption,
+.touch-dashboard .setting-field label {
+    display: block;
+    margin: 0 0 5px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.touch-dashboard .schedule-field-value {
+    display: block;
+    min-height: 36px;
+    padding: 9px 8px;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.touch-dashboard .schedule-input,
+.touch-dashboard .setting-input,
+.touch-dashboard .setting-field select,
+.touch-dashboard .setting-field textarea {
+    width: 100%;
+    min-height: 36px;
+    padding: 7px 8px;
+    border: 1px solid #28513a;
+    border-radius: 8px;
+    color: var(--text);
+    background: #07110e;
+    font: inherit;
+    font-size: 12px;
+}
+
+.touch-dashboard .schedule-input:focus-visible,
+.touch-dashboard .setting-input:focus-visible,
+.touch-dashboard .setting-field select:focus-visible,
+.touch-dashboard .setting-field textarea:focus-visible {
+    outline: 2px solid rgba(57, 189, 114, 0.55);
+    outline-offset: 1px;
+}
+
+.touch-dashboard .schedule-toggle,
+.touch-dashboard .setting-toggle {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 36px;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.touch-dashboard .schedule-toggle input,
+.touch-dashboard .setting-toggle input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--green);
+}
+
+.touch-dashboard .schedule-day-mask {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 5px;
+    margin-top: 6px;
+}
+
+.touch-dashboard .schedule-day-mask[hidden] {
+    display: none;
+}
+
+.touch-dashboard .schedule-mask-day {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.touch-dashboard .schedule-mask-day input {
+    accent-color: var(--green);
+}
+
+.touch-dashboard .schedule-remove {
+    min-height: 30px;
+    padding: 4px 8px;
+    border: 1px solid #74353a;
+    border-radius: 8px;
+    color: #ff9a9e;
+    background: #291719;
+    font: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.touch-dashboard .playlist-card {
+    padding: 0;
+}
+
+.touch-dashboard .playlist-card summary {
+    padding: 12px;
+    cursor: pointer;
+    list-style-position: inside;
+}
+
+.touch-dashboard .playlist-summary {
+    display: inline-flex;
+    width: calc(100% - 22px);
+    vertical-align: middle;
+}
+
+.touch-dashboard .playlist-active,
+.touch-dashboard .multisync-state {
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.touch-dashboard .playlist-detail {
+    padding: 0 12px 12px;
+}
+
+.touch-dashboard .playlist-detail .track-list {
+    max-height: 300px;
+}
+
+.touch-dashboard .multisync-card-heading {
+    margin-bottom: 7px;
+}
+
+.touch-dashboard .multisync-meta,
+.touch-dashboard .setting-tip,
+.touch-dashboard .setting-status {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+.touch-dashboard .multisync-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 12px;
+}
+
+.touch-dashboard .setting-group-heading {
+    margin-bottom: 10px;
+}
+
+.touch-dashboard .setting-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.touch-dashboard .setting-field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 8px;
+    padding-top: 9px;
+    border-top: 1px solid var(--line);
+}
+
+.touch-dashboard .setting-input-wrap {
+    min-width: 0;
+}
+
+.touch-dashboard .setting-input[type="checkbox"] {
+    width: 18px;
+    min-height: 18px;
+    height: 18px;
+}
+
+.touch-dashboard .setting-help {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.touch-dashboard .setting-save {
+    min-height: 34px;
+}
+
+.touch-dashboard .setting-status {
+    grid-column: 1 / -1;
+    min-height: 14px;
+}
+
+.touch-dashboard .setting-status.is-error {
+    color: #ff858a;
 }
 
 .touch-dashboard .field-label {
@@ -637,7 +1045,7 @@
     }
 
     .touch-dashboard .controls-column,
-    .touch-dashboard .tracks-column {
+    .touch-dashboard .screen-content {
         padding: 14px 10px;
     }
 
@@ -697,6 +1105,20 @@
     .touch-dashboard .track-list {
         max-height: 330px;
     }
+
+    .touch-dashboard .screen-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .touch-dashboard .screen-actions {
+        justify-content: flex-start;
+    }
+
+    .touch-dashboard .screen-tabs {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 4px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -706,6 +1128,10 @@
 
     .touch-dashboard .playback-controls {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .touch-dashboard .screen-tabs {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
     }
 }
 
@@ -726,4 +1152,7 @@
         font-size: 10px;
     }
 
+    .touch-dashboard .schedule-field-grid {
+        grid-template-columns: 1fr;
+    }
 }
