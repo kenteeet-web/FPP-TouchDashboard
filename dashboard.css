@@ -1460,6 +1460,252 @@ body.fpp-touch-dashboard-fullscreen {
     }
 }
 
+@media (orientation: landscape) and (max-height: 600px) and (max-width: 1000px) {
+    .touch-dashboard {
+        padding: 6px 10px 8px;
+    }
+
+    .touch-dashboard .festive-lights {
+        height: 20px;
+        gap: 2px;
+        margin: -6px 0 4px;
+    }
+
+    .touch-dashboard .festive-lights::before {
+        top: 5px;
+        height: 1px;
+    }
+
+    .touch-dashboard .festive-lights span {
+        width: clamp(6px, 0.85vw, 9px);
+        height: 11px;
+        margin-top: 6px;
+        border-radius: 3px 3px 5px 5px;
+    }
+
+    .touch-dashboard .festive-lights span::before {
+        top: -3px;
+        height: 4px;
+    }
+
+    .touch-dashboard .festive-lights[data-season="halloween"] span,
+    .touch-dashboard .festive-lights[data-season="spring"] span {
+        margin-top: 2px;
+        font-size: clamp(9px, 1vw, 12px);
+    }
+
+    .touch-dashboard .dashboard-header {
+        margin-bottom: 4px;
+        padding-bottom: 4px;
+    }
+
+    .touch-dashboard h1 {
+        font-size: clamp(18px, 2.5vw, 24px);
+    }
+
+    .touch-dashboard .connection-state {
+        min-height: 26px;
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+
+    .touch-dashboard .now-playing {
+        margin-bottom: 5px;
+        padding: 7px 9px;
+    }
+
+    .touch-dashboard .section-heading {
+        align-items: center;
+        gap: 8px;
+    }
+
+    .touch-dashboard .section-heading .eyebrow {
+        margin-bottom: 2px;
+        font-size: 9px;
+    }
+
+    .touch-dashboard .section-heading h2 {
+        font-size: 15px;
+    }
+
+    .touch-dashboard .playback-state {
+        min-height: 26px;
+        padding: 4px 8px;
+        font-size: 9px;
+    }
+
+    .touch-dashboard .playing-content {
+        align-items: center;
+        flex-direction: row;
+        gap: 8px;
+        margin-top: 6px;
+    }
+
+    .touch-dashboard .playing-copy {
+        flex: 1 1 auto;
+    }
+
+    .touch-dashboard .playlist-name {
+        font-size: 11px;
+    }
+
+    .touch-dashboard .playing-copy h3 {
+        margin-top: 2px;
+        font-size: 16px;
+        line-height: 1.15;
+    }
+
+    .touch-dashboard .track-position {
+        margin-top: 2px;
+        font-size: 10px;
+    }
+
+    .touch-dashboard .time-card {
+        min-width: 126px;
+        gap: 1px 6px;
+        padding: 4px 6px;
+    }
+
+    .touch-dashboard .time-value {
+        font-size: 15px;
+    }
+
+    .touch-dashboard .time-caption {
+        font-size: 8px;
+    }
+
+    .touch-dashboard .schedule-time-card {
+        gap: 6px;
+        margin-top: 4px;
+        padding: 3px 8px;
+    }
+
+    .touch-dashboard .schedule-time-label {
+        font-size: 8px;
+    }
+
+    .touch-dashboard .schedule-time-note {
+        margin-top: 1px;
+        font-size: 9px;
+    }
+
+    .touch-dashboard .schedule-time-value {
+        font-size: 14px;
+    }
+
+    .touch-dashboard .progress-track {
+        height: 3px;
+        margin-top: 4px;
+    }
+
+    .touch-dashboard .screen-tabs {
+        gap: 3px;
+        margin-bottom: 5px;
+    }
+
+    .touch-dashboard .screen-tab {
+        min-height: 26px;
+        padding: 3px 2px;
+        font-size: 9px;
+    }
+
+    .touch-dashboard .controls-column {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas:
+            "playlist-label volume-heading"
+            "playlist-select volume-control"
+            "playback-label playback-label"
+            "playback-controls playback-controls"
+            "control-message control-message";
+        align-content: start;
+        gap: 4px 8px;
+        padding: 7px 8px;
+    }
+
+    .touch-dashboard .controls-column > .field-label[for="playlist-select"] {
+        grid-area: playlist-label;
+        margin-bottom: 0;
+        font-size: 10px;
+    }
+
+    .touch-dashboard .playlist-select {
+        grid-area: playlist-select;
+        min-height: 34px;
+        padding: 0 8px;
+        font-size: 12px;
+    }
+
+    .touch-dashboard .volume-heading {
+        grid-area: volume-heading;
+        margin-top: 0;
+    }
+
+    .touch-dashboard .volume-control {
+        grid-area: volume-control;
+        gap: 6px;
+        margin-top: 0;
+        padding: 4px 8px;
+    }
+
+    .touch-dashboard .volume-icon {
+        width: 16px;
+        font-size: 16px;
+    }
+
+    .touch-dashboard .playback-label {
+        grid-area: playback-label;
+        margin: 4px 0 0;
+        font-size: 10px;
+    }
+
+    .touch-dashboard .playback-controls {
+        grid-area: playback-controls;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-areas:
+            "play pause stop"
+            "previous next stop-gracefully";
+        gap: 4px;
+    }
+
+    .touch-dashboard .control-button[data-action="play"] {
+        grid-area: play;
+    }
+
+    .touch-dashboard .control-button[data-action="pause"] {
+        grid-area: pause;
+    }
+
+    .touch-dashboard .control-button[data-action="stop"] {
+        grid-area: stop;
+    }
+
+    .touch-dashboard .control-button[data-action="previous"] {
+        grid-area: previous;
+    }
+
+    .touch-dashboard .control-button[data-action="next"] {
+        grid-area: next;
+    }
+
+    .touch-dashboard .control-button[data-action="stop-gracefully"] {
+        grid-area: stop-gracefully;
+    }
+
+    .touch-dashboard .control-button {
+        min-height: 34px;
+        gap: 4px;
+        padding: 4px;
+        font-size: 10px;
+    }
+
+    .touch-dashboard .control-message {
+        grid-area: control-message;
+        min-height: 0;
+        margin-top: 0;
+    }
+}
+
 @media (max-width: 420px) {
     .touch-dashboard .dashboard-header {
         align-items: flex-start;
