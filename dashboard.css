@@ -136,6 +136,11 @@ body.fpp-touch-dashboard-fullscreen {
     --season-accent: #e985b5;
 }
 
+.touch-dashboard .festive-lights[data-season="halloween"],
+.touch-dashboard .festive-lights[data-season="spring"] {
+    margin-top: 20px;
+}
+
 .touch-dashboard .festive-lights[data-season="halloween"]::before {
     display: none;
 }
@@ -1536,7 +1541,7 @@ body.fpp-touch-dashboard-fullscreen {
 
     .touch-dashboard .festive-lights[data-season="halloween"],
     .touch-dashboard .festive-lights[data-season="spring"] {
-        margin-top: 18px;
+        margin-top: 36px;
     }
 
     .touch-dashboard .festive-lights::before {
