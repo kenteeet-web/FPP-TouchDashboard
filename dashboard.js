@@ -1551,7 +1551,8 @@
                 if (isPaused(playerStatus)) {
                     await api("/playlists/resume");
                 } else {
-                    await api("/playlist/" + encodeURIComponent(selectedPlaylist) + "/start");
+                    await api("/command/" + encodeURIComponent("Start Playlist") + "/"
+                        + encodeURIComponent(selectedPlaylist) + "/false/false/false");
                 }
             } else if (action === "pause") {
                 await api("/playlists/pause");
