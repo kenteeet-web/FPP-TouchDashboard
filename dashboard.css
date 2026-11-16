@@ -1534,6 +1534,11 @@ body.fpp-touch-dashboard-fullscreen {
         margin: -6px 0 4px;
     }
 
+    .touch-dashboard .festive-lights[data-season="halloween"],
+    .touch-dashboard .festive-lights[data-season="spring"] {
+        margin-top: 18px;
+    }
+
     .touch-dashboard .festive-lights::before {
         top: 5px;
         height: 1px;
