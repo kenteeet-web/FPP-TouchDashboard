@@ -32,6 +32,7 @@
         scheduleTimeNote: document.getElementById("schedule-time-note"),
         scheduleTimeValue: document.getElementById("schedule-time-value"),
         playlist: document.getElementById("playlist-select"),
+        repeatPlaylist: document.getElementById("repeat-playlist"),
         volume: document.getElementById("volume-control"),
         volumeValue: document.getElementById("volume-value"),
         message: document.getElementById("control-message"),
@@ -422,8 +423,9 @@
         const currentNames = [status.current_sequence, status.current_song]
             .filter(Boolean)
             .map(function (name) { return String(name).toLowerCase(); });
+        const currentType = String(status.current_playlist && status.current_playlist.type || "").toLowerCase();
 
-        if (currentNames.length) {
+        if (currentNames.length && currentType !== "pause" && currentType !== "command") {
             const matchingIndex = tracks.findIndex(function (entry) {
                 const title = trackTitle(entry).toLowerCase();
                 return currentNames.some(function (name) {
@@ -433,7 +435,7 @@
             if (matchingIndex >= 0) return matchingIndex;
         }
 
-        const rawIndex = Number(status.current_playlist && status.current_playlist.index) - (indexOffset || 0);
+        const rawIndex = Number(status.current_playlist && status.current_playlist.index) - 1 - (indexOffset || 0);
         return Number.isInteger(rawIndex) && rawIndex >= 0 && rawIndex < tracks.length ? rawIndex : -1;
     }
 
@@ -481,7 +483,13 @@
 
         tracks.forEach(function (entry, index) {
             const row = document.createElement("li");
-            row.className = "track-row" + (index === activeIndex ? " is-current" : "");
+            const titleText = trackTitle(entry);
+            row.className = "track-row is-selectable" + (index === activeIndex ? " is-current" : "");
+            row.dataset.playlistItem = String(index + leadInCount + 1);
+            row.setAttribute("role", "button");
+            row.setAttribute("tabindex", "0");
+            row.setAttribute("aria-label", "Start " + titleText);
+            if (index === activeIndex) row.setAttribute("aria-current", "true");
 
             const position = document.createElement("span");
             position.className = "track-index";
@@ -489,7 +497,7 @@
 
             const title = document.createElement("span");
             title.className = "track-title";
-            title.textContent = trackTitle(entry);
+            title.textContent = titleText;
             title.title = title.textContent;
 
             const duration = document.createElement("span");
@@ -1537,7 +1545,7 @@
         });
     }
 
-    async function runAction(action) {
+    async function runAction(action, playlistItem) {
         if (actionInProgress) return;
         actionInProgress = true;
         const buttons = root.querySelectorAll("[data-action]");
@@ -1546,13 +1554,22 @@
 
         try {
             // FPP 10.1.2 registers playlist and command actions as GET routes.
-            if (action === "play") {
+            const repeat = elements.repeatPlaylist.checked ? "true" : "false";
+            if (action === "play-track") {
+                if (!selectedPlaylist) throw new Error("Select a playlist first.");
+                const itemIndex = Number(playlistItem);
+                if (!Number.isInteger(itemIndex) || itemIndex < 1 || itemIndex > 100) {
+                    throw new Error("FPP can only start directly at playlist items 1 through 100.");
+                }
+                await api("/command/" + encodeURIComponent("Start Playlist At Item") + "/"
+                    + encodeURIComponent(selectedPlaylist) + "/" + itemIndex + "/" + repeat + "/false/false");
+            } else if (action === "play") {
                 if (!selectedPlaylist) throw new Error("Select a playlist first.");
                 if (isPaused(playerStatus)) {
                     await api("/playlists/resume");
                 } else {
                     await api("/command/" + encodeURIComponent("Start Playlist") + "/"
-                        + encodeURIComponent(selectedPlaylist) + "/false/false/false");
+                        + encodeURIComponent(selectedPlaylist) + "/" + repeat + "/false/false");
                 }
             } else if (action === "pause") {
                 await api("/playlists/pause");
@@ -1577,6 +1594,20 @@
 
     elements.playlist.addEventListener("change", function (event) {
         selectPlaylist(event.target.value, true);
+    });
+    elements.trackList.addEventListener("click", function (event) {
+        const row = event.target.closest(".track-row[data-playlist-item]");
+        if (row && elements.trackList.contains(row)) {
+            runAction("play-track", row.dataset.playlistItem);
+        }
+    });
+    elements.trackList.addEventListener("keydown", function (event) {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const row = event.target.closest(".track-row[data-playlist-item]");
+        if (row && elements.trackList.contains(row)) {
+            event.preventDefault();
+            runAction("play-track", row.dataset.playlistItem);
+        }
     });
 
     elements.screenTabs.addEventListener("click", function (event) {

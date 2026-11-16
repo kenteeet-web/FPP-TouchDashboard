@@ -8,6 +8,7 @@ A touch-friendly Falcon Player (FPP) plugin for controlling show playback from a
 - Skip to the next or previous playlist item.
 - Adjust the FPP player volume.
 - View the current playlist, sequence/song, playback state, elapsed time, and remaining time.
+- Tap any playlist item in the status queue to start from it, including pause and command items; choose whether playback repeats with the Repeat checkbox.
 - Use the full-width navigation below Player Status to switch the right pane between Status, Schedules, Playlists, MultiSync, and FPP Settings; on wider screens, the header, player status, navigation, and playback controls stay visible while the right pane scrolls.
 - Browse playlists and their tracks, view compact MultiSync controller cards with one reachable IP per FPP system, and edit schedules through FPP's API.
 - View and save Playback, Audio/Video, Input/Output, and User Interface settings from the FPP settings API.
@@ -25,7 +26,7 @@ The dashboard calls the local FPP REST API on the same player:
 
 - `GET /api/fppd/status` and `GET /api/playlists` for live state.
 - `GET /api/playlist/{name}?mergeSubs=1` for the selected playlist.
-- `GET /api/command/Start%20Playlist/{name}/false/false/false` to start the selected playlist; `GET /api/playlists/resume`, `/api/playlists/pause`, `/api/playlists/stop`, and `/api/playlists/stopgracefully` for other playback controls.
+- `GET /api/command/Start%20Playlist/{name}/{repeat}/false/false` to start the selected playlist and `GET /api/command/Start%20Playlist%20At%20Item/{name}/{item}/{repeat}/false/false` to jump to a playlist item; `GET /api/playlists/resume`, `/api/playlists/pause`, `/api/playlists/stop`, and `/api/playlists/stopgracefully` for other playback controls.
 - `GET /api/command/Next%20Playlist%20Item` and `/api/command/Prev%20Playlist%20Item` to skip playlist items.
 - `POST /api/system/volume` for volume.
 - `GET /api/schedule`, `POST /api/schedule`, and `POST /api/schedule/reload` for schedule management.

@@ -1087,6 +1087,26 @@ body.fpp-touch-dashboard-fullscreen {
     background: var(--surface-raised);
 }
 
+.touch-dashboard .repeat-toggle {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 5px;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.touch-dashboard .repeat-toggle input {
+    width: 18px;
+    min-width: 18px;
+    height: 18px;
+    min-height: 18px;
+    margin: 0;
+    accent-color: var(--green);
+}
+
 .touch-dashboard .volume-icon {
     width: 18px;
     color: var(--green);
@@ -1097,6 +1117,8 @@ body.fpp-touch-dashboard-fullscreen {
 
 .touch-dashboard input[type="range"] {
     width: 100%;
+    min-width: 0;
+    flex: 1;
     accent-color: var(--red);
 }
 
@@ -1208,6 +1230,21 @@ body.fpp-touch-dashboard-fullscreen {
     border: 1px solid transparent;
     border-radius: 9px;
     background: #0a1712;
+}
+
+.touch-dashboard .track-row.is-selectable {
+    cursor: pointer;
+}
+
+.touch-dashboard .track-row.is-selectable:hover,
+.touch-dashboard .track-row.is-selectable:focus-visible {
+    border-color: #27864e;
+    background: #10271a;
+    outline: none;
+}
+
+.touch-dashboard .track-row.is-selectable:focus-visible {
+    box-shadow: 0 0 0 2px var(--green);
 }
 
 .touch-dashboard .track-row.is-current {
