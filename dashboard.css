@@ -960,6 +960,18 @@ body.fpp-touch-dashboard-fullscreen {
     overflow-wrap: anywhere;
 }
 
+.touch-dashboard .multisync-meta a {
+    color: var(--green);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    overflow-wrap: anywhere;
+}
+
+.touch-dashboard .multisync-meta a:focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 2px;
+}
+
 .touch-dashboard .multisync-playing {
     margin: 4px 0 0;
     color: var(--muted);
@@ -1380,6 +1392,52 @@ body.fpp-touch-dashboard-fullscreen {
 
     .touch-dashboard .screen-tabs {
         grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+}
+
+@media (orientation: landscape) and (max-height: 600px) and (max-width: 900px) {
+    body.fpp-touch-dashboard-fullscreen {
+        height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow: auto;
+    }
+
+    .touch-dashboard {
+        display: block;
+        height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow: visible;
+        padding: 12px 12px 18px;
+    }
+
+    .touch-dashboard > main {
+        display: block;
+    }
+
+    .touch-dashboard .dashboard-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        align-items: start;
+        flex: none;
+    }
+
+    .touch-dashboard .controls-column {
+        position: static;
+        z-index: auto;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .touch-dashboard .right-column {
+        display: block;
+        overflow: visible;
+    }
+
+    .touch-dashboard .right-pane {
+        flex: none;
+        overflow: visible;
     }
 }
 
