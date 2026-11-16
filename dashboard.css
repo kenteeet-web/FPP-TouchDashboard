@@ -9,8 +9,12 @@
     --green-soft: #173c2b;
     --red: #e33a43;
     --amber: #e8ad35;
+    display: grid;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    grid-template-rows: auto auto auto auto minmax(0, 1fr);
     margin: 0;
     padding: 28px clamp(14px, 3vw, 36px) 36px;
     color: var(--text);
@@ -19,12 +23,22 @@
     border-radius: 0;
     box-sizing: border-box;
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    overflow: hidden;
 }
 
 body.fpp-touch-dashboard-fullscreen {
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
     margin: 0;
     background: #07110e;
+    overflow: hidden;
+}
+
+.touch-dashboard > main,
+.touch-dashboard > .dashboard-grid,
+.touch-dashboard .right-column {
+    min-height: 0;
 }
 
 .touch-dashboard *,
@@ -462,15 +476,15 @@ body.fpp-touch-dashboard-fullscreen {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 16px;
-    align-items: start;
+    align-items: stretch;
 }
 
 .touch-dashboard .controls-column {
     min-width: 0;
     position: sticky;
-    top: 16px;
+    top: 0;
     z-index: 2;
-    max-height: calc(100vh - 32px);
+    max-height: 100%;
     overflow-y: auto;
     overscroll-behavior: contain;
     padding: clamp(16px, 2.5vw, 24px);
@@ -482,7 +496,10 @@ body.fpp-touch-dashboard-fullscreen {
 }
 
 .touch-dashboard .right-pane {
-    overflow: hidden;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .touch-dashboard .screen-tabs {
@@ -1194,12 +1211,31 @@ body.fpp-touch-dashboard-fullscreen {
 @media (max-width: 480px) {
     .touch-dashboard .dashboard-grid {
         grid-template-columns: 1fr;
+        align-items: start;
     }
 
     .touch-dashboard .controls-column {
         position: static;
         z-index: auto;
         max-height: none;
+        overflow: visible;
+    }
+
+    .touch-dashboard {
+        display: block;
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    body.fpp-touch-dashboard-fullscreen {
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+    }
+
+    .touch-dashboard .right-pane {
+        height: auto;
         overflow: visible;
     }
 
