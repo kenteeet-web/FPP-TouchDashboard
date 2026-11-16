@@ -99,7 +99,8 @@
     }
 
     function applySettings() {
-        elements.showName.textContent = settings.showName || "FALCON PLAYER";
+        elements.showName.textContent = settings.showName || "Touch Dashboard";
+        elements.showName.href = settings.instanceUrl;
         elements.settingsShowName.value = settings.showName;
         elements.settingsAddress.value = settings.instanceUrl;
     }
@@ -929,6 +930,40 @@
         });
     }
 
+    function systemAddress(system) {
+        return String(system && (system.ip || system.address) || "").trim();
+    }
+
+    function isLocalSystem(system) {
+        return String(system && system.local) === "1" || Boolean(system && system.local === true);
+    }
+
+    function uniqueSystemsByAddress(systems) {
+        const indexesByAddress = Object.create(null);
+        const uniqueSystems = [];
+        systems.forEach(function (system) {
+            if (!system || typeof system !== "object") return;
+            const address = systemAddress(system);
+            const key = address.replace(/^\[|\]$/g, "").toLowerCase();
+            if (!key) {
+                uniqueSystems.push(system);
+                return;
+            }
+
+            if (!Object.prototype.hasOwnProperty.call(indexesByAddress, key)) {
+                indexesByAddress[key] = uniqueSystems.length;
+                uniqueSystems.push(system);
+                return;
+            }
+
+            const existingIndex = indexesByAddress[key];
+            if (isLocalSystem(system) && !isLocalSystem(uniqueSystems[existingIndex])) {
+                uniqueSystems[existingIndex] = system;
+            }
+        });
+        return uniqueSystems;
+    }
+
     function statusForAddress(data, address) {
         if (!data || typeof data !== "object") return null;
         if (Array.isArray(data)) {
@@ -951,8 +986,8 @@
         }
 
         systems.forEach(function (system) {
-            const address = String(system.address || system.ip || "Unknown address");
-            const local = String(system.local) === "1" || system.local === true;
+            const address = systemAddress(system) || "Unknown address";
+            const local = isLocalSystem(system);
             const remoteStatus = local ? playerStatus : statusForAddress(statusData, address);
             const data = remoteStatus && typeof remoteStatus === "object" ? remoteStatus : system;
             const card = document.createElement("article");
@@ -994,14 +1029,14 @@
         try {
             const systemData = await api("/fppd/multiSyncSystems");
             if (requestTargetVersion !== targetVersion) return;
-            const systems = normalizeSystems(systemData);
+            const systems = uniqueSystemsByAddress(normalizeSystems(systemData));
             const addresses = systems
                 .filter(function (system) {
-                const typeId = Number(system.typeId);
+                    const typeId = Number(system.typeId);
                     const isFpp = !Number.isFinite(typeId) || (typeId >= 1 && typeId < 128);
-                    return isFpp && String(system.local) !== "1" && system.local !== true;
+                    return isFpp && !isLocalSystem(system);
                 })
-                .map(function (system) { return String(system.address || system.ip || ""); })
+                .map(systemAddress)
                 .filter(Boolean);
             let statusData = {};
             if (addresses.length) {

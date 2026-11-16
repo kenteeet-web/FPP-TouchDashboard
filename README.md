@@ -9,7 +9,7 @@ A touch-friendly Falcon Player (FPP) plugin for controlling show playback from a
 - Adjust the FPP player volume.
 - View the current playlist, sequence/song, playback state, elapsed time, and remaining time.
 - Use the full-width navigation below Player Status to switch the right pane between Status, Schedules, Playlists, MultiSync, and FPP Settings; playback controls stay visible in the left pane.
-- Browse playlists and their tracks, view discovered MultiSync FPP players, and edit schedules through FPP's API.
+- Browse playlists and their tracks, view discovered MultiSync FPP players once per IP, and edit schedules through FPP's API.
 - View and save Playback, Audio/Video, Input/Output, and User Interface settings from the FPP settings API.
 - See the current schedule end time or the next scheduled start time in 24-hour format.
 - Responsive dark dashboard layout for touch screens.
@@ -31,4 +31,4 @@ The dashboard calls the local FPP REST API on the same player:
 - `GET /api/fppd/multiSyncSystems` and `GET /api/system/status?type=FPP&ip[]=...` for MultiSync discovery and status.
 - `GET /api/settings`, `GET /api/settings/{name}`, and `PUT /api/settings/{name}` for Playback, Audio/Video, Input/Output, and User Interface settings.
 
-The settings gear lets the user set a show name and the FPP IP address or URL used to open the dashboard. These settings are saved in the current browser's local storage. The address must match the page origin because FPP blocks cross-origin playback commands. The plugin does not use analytics or third-party telemetry.
+The settings gear lets the user set a show name and the FPP IP address or URL used to open the dashboard. The show name appears as a link to the full FPP interface, opened in a new tab. These settings are saved in the current browser's local storage. The address must match the page origin because FPP blocks cross-origin playback commands. The plugin does not use analytics or third-party telemetry.

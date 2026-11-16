@@ -21,8 +21,7 @@
     </div>
     <header class="dashboard-header">
         <div>
-            <p class="eyebrow" id="show-name">FALCON PLAYER</p>
-            <h1>Touch Dashboard</h1>
+            <h1><a class="dashboard-title-link" id="show-name" href="" target="_blank" rel="noopener noreferrer" title="Open the full FPP interface in a new tab">Touch Dashboard</a></h1>
         </div>
         <div class="dashboard-actions">
             <button class="settings-button" id="settings-open" type="button" aria-label="Dashboard settings" title="Dashboard settings">
