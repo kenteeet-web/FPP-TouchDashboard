@@ -1545,23 +1545,24 @@
         setMessage("Sending " + action.replace("-", " ") + " command\u2026", false);
 
         try {
+            // FPP 10.1.2 registers playlist and command actions as GET routes.
             if (action === "play") {
                 if (!selectedPlaylist) throw new Error("Select a playlist first.");
                 if (isPaused(playerStatus)) {
-                    await post("/playlists/resume");
+                    await api("/playlists/resume");
                 } else {
-                    await post("/playlist/" + encodeURIComponent(selectedPlaylist) + "/start");
+                    await api("/playlist/" + encodeURIComponent(selectedPlaylist) + "/start");
                 }
             } else if (action === "pause") {
-                await post("/playlists/pause");
+                await api("/playlists/pause");
             } else if (action === "stop") {
-                await post("/playlists/stop");
+                await api("/playlists/stop");
             } else if (action === "stop-gracefully") {
-                await post("/playlists/stopgracefully");
+                await api("/playlists/stopgracefully");
             } else if (action === "next") {
-                await post("/command/Next%20Playlist%20Item", []);
+                await api("/command/" + encodeURIComponent("Next Playlist Item"));
             } else if (action === "previous") {
-                await post("/command/Previous%20Playlist%20Item", []);
+                await api("/command/" + encodeURIComponent("Prev Playlist Item"));
             }
             setMessage("Command sent.", false);
             await refresh();
