@@ -380,8 +380,8 @@ body.fpp-touch-dashboard-fullscreen {
 }
 
 .touch-dashboard .now-playing {
-    padding: clamp(18px, 3vw, 28px);
-    margin-bottom: 16px;
+    padding: clamp(12px, 2vw, 22px);
+    margin-bottom: 12px;
     background:
         radial-gradient(ellipse at 92% 10%, rgba(39, 130, 77, 0.15), transparent 38%),
         var(--surface);
@@ -414,7 +414,7 @@ body.fpp-touch-dashboard-fullscreen {
 
 .touch-dashboard .playing-content {
     align-items: flex-end;
-    margin-top: 24px;
+    margin-top: 16px;
 }
 
 .touch-dashboard .playing-copy {
@@ -433,17 +433,44 @@ body.fpp-touch-dashboard-fullscreen {
 }
 
 .touch-dashboard .track-position {
-    margin-top: 8px;
+    margin-top: 4px;
     font-size: 13px;
 }
 
 .touch-dashboard .time-card {
-    min-width: 118px;
-    padding: 12px 16px;
+    display: grid;
+    min-width: 190px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+        "elapsed remaining"
+        "elapsed-caption remaining-caption";
+    align-items: baseline;
+    gap: 2px 12px;
+    padding: 8px 14px;
     border: 1px solid var(--line);
     border-radius: 12px;
     background: rgba(3, 10, 7, 0.58);
-    text-align: right;
+    text-align: center;
+}
+
+.touch-dashboard .time-card > .time-value:not(.time-remaining) {
+    grid-area: elapsed;
+}
+
+.touch-dashboard .time-card > .time-caption:nth-child(2) {
+    grid-area: elapsed-caption;
+}
+
+.touch-dashboard .time-card > .time-divider {
+    display: none;
+}
+
+.touch-dashboard .time-card > .time-remaining {
+    grid-area: remaining;
+}
+
+.touch-dashboard .time-card > .time-caption:last-child {
+    grid-area: remaining-caption;
 }
 
 .touch-dashboard .schedule-time-card {
@@ -451,8 +478,8 @@ body.fpp-touch-dashboard-fullscreen {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-top: 16px;
-    padding: 10px 14px;
+    margin-top: 10px;
+    padding: 8px 12px;
     border: 1px solid var(--line);
     border-radius: 12px;
     background: rgba(3, 10, 7, 0.42);
@@ -510,7 +537,7 @@ body.fpp-touch-dashboard-fullscreen {
 
 .touch-dashboard .progress-track {
     height: 5px;
-    margin-top: 22px;
+    margin-top: 14px;
     overflow: hidden;
     border-radius: 5px;
     background: #203328;
@@ -859,66 +886,68 @@ body.fpp-touch-dashboard-fullscreen {
     line-height: 1.45;
 }
 
-.touch-dashboard .multisync-table-wrap {
-    width: 100%;
-    overflow-x: auto;
+.touch-dashboard .multisync-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.touch-dashboard .multisync-card {
+    min-width: 0;
+    padding: 10px 12px;
     border: 1px solid var(--line);
     border-radius: 11px;
     background: #0a1712;
 }
 
-.touch-dashboard .multisync-table {
-    width: 100%;
-    min-width: 620px;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 11px;
+.touch-dashboard .multisync-card-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
 }
 
-.touch-dashboard .multisync-table th,
-.touch-dashboard .multisync-table td {
-    padding: 9px 10px;
-    border-bottom: 1px solid var(--line);
-    vertical-align: top;
-}
-
-.touch-dashboard .multisync-table th {
+.touch-dashboard .multisync-name {
+    min-width: 0;
     color: var(--text);
-    background: var(--surface-raised);
+    font-size: 12px;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}
+
+.touch-dashboard .multisync-state {
+    flex: 0 0 auto;
+    color: var(--green);
     font-size: 10px;
     font-weight: 750;
-    white-space: nowrap;
 }
 
-.touch-dashboard .multisync-table td {
-    color: var(--muted);
-}
-
-.touch-dashboard .multisync-table tbody tr:last-child td {
-    border-bottom: 0;
-}
-
-.touch-dashboard .multisync-hostname {
-    color: var(--text) !important;
-    font-weight: 700;
-}
-
-.touch-dashboard .multisync-ip {
-    color: var(--text) !important;
-    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-    white-space: nowrap;
-}
-
-.touch-dashboard .multisync-platform-detail {
-    display: block;
-    margin-top: 3px;
+.touch-dashboard .multisync-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
     color: var(--muted);
     font-size: 10px;
+    line-height: 1.4;
+}
+
+.touch-dashboard .multisync-meta span {
+    overflow-wrap: anywhere;
+}
+
+.touch-dashboard .multisync-playing {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
 }
 
 .touch-dashboard .multisync-empty {
-    color: var(--muted) !important;
-    text-align: center;
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
 }
 
 .touch-dashboard .setting-group-heading {
@@ -1232,10 +1261,15 @@ body.fpp-touch-dashboard-fullscreen {
         display: grid;
         min-width: 0;
         grid-template-columns: auto 1fr auto 1fr;
+        grid-template-areas: none;
         align-items: center;
         gap: 8px 10px;
         padding: 10px 12px;
         text-align: left;
+    }
+
+    .touch-dashboard .time-card > * {
+        grid-area: auto;
     }
 
     .touch-dashboard .time-divider {

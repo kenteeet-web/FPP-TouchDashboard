@@ -171,20 +171,7 @@
                             <button class="small-button" id="multisync-refresh" type="button">Refresh</button>
                         </div>
                         <p class="screen-message" id="multisync-message" role="status" aria-live="polite"></p>
-                        <div class="multisync-table-wrap">
-                            <table class="multisync-table" aria-label="MultiSync FPP controllers">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Hostname</th>
-                                        <th scope="col">IP Address</th>
-                                        <th scope="col">Platform</th>
-                                        <th scope="col">Mode</th>
-                                        <th scope="col">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="multisync-list"></tbody>
-                            </table>
-                        </div>
+                        <div class="multisync-list" id="multisync-list" role="list" aria-label="MultiSync FPP controllers"></div>
                     </section>
 
                     <section class="screen-view" id="screen-fpp-settings" role="tabpanel" aria-labelledby="tab-fpp-settings" data-screen-view="fpp-settings" hidden>

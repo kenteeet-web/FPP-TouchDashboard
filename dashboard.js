@@ -1022,13 +1022,10 @@
     function renderMultisync(systems, statusData) {
         elements.multisyncList.replaceChildren();
         if (!systems.length) {
-            const row = document.createElement("tr");
-            const cell = document.createElement("td");
-            cell.className = "multisync-empty";
-            cell.colSpan = 5;
-            cell.textContent = "No browser-reachable FPP controllers found.";
-            row.appendChild(cell);
-            elements.multisyncList.appendChild(row);
+            const empty = document.createElement("p");
+            empty.className = "multisync-empty";
+            empty.textContent = "No browser-reachable FPP controllers found.";
+            elements.multisyncList.appendChild(empty);
             return;
         }
 
@@ -1037,33 +1034,47 @@
             const local = isLocalSystem(system);
             const remoteStatus = local ? playerStatus : statusForAddress(statusData, address);
             const data = remoteStatus && typeof remoteStatus === "object" ? remoteStatus : system;
-            const row = document.createElement("tr");
-            const hostname = document.createElement("td");
-            hostname.className = "multisync-hostname";
-            hostname.textContent = String(system.hostname || system.name || "Unknown");
-            const ip = document.createElement("td");
-            ip.className = "multisync-ip";
-            ip.textContent = address;
-            const platform = document.createElement("td");
-            platform.textContent = String(system.platform || system.type || data.platform || data.type || "FPP");
-            const model = system.model || data.model;
-            if (model && String(model) !== platform.textContent) {
-                const detail = document.createElement("span");
-                detail.className = "multisync-platform-detail";
-                detail.textContent = String(model);
-                platform.appendChild(detail);
-            }
-            const mode = document.createElement("td");
-            mode.textContent = String(system.fppModeString || system.fppMode || data.fppModeString || data.fppMode || "Unknown");
-            const status = document.createElement("td");
+            const card = document.createElement("article");
+            card.className = "multisync-card";
+            card.setAttribute("role", "listitem");
+            const heading = document.createElement("div");
+            heading.className = "multisync-card-heading";
+            const hostname = document.createElement("span");
+            hostname.className = "multisync-name";
+            hostname.textContent = String(system.hostname || system.name || address);
+            const state = document.createElement("span");
+            state.className = "multisync-state";
             const playing = data.current_sequence || data.current_song
                 || (data.current_playlist && data.current_playlist.playlist);
             const statusName = String(data.status_name || data.status || (local ? "Online" : "Unreachable"));
-            status.textContent = isPlaying(data) && playing
-                ? "Playing: " + String(playing)
-                : statusName;
-            row.append(hostname, ip, platform, mode, status);
-            elements.multisyncList.appendChild(row);
+            state.textContent = isPlaying(data) && playing ? "playing" : statusName;
+            heading.append(hostname, state);
+
+            const meta = document.createElement("div");
+            meta.className = "multisync-meta";
+            const metadata = [
+                ["Address", address],
+                ["Mode", system.fppModeString || system.fppMode || data.fppModeString || data.fppMode],
+                ["Type", system.platform || system.type || data.platform || data.type || "FPP"],
+                ["Model", system.model || data.model],
+                ["Version", data.version || system.version],
+                ["Last seen", system.lastSeenStr]
+            ];
+            metadata.forEach(function (item) {
+                if (item[1] === undefined || item[1] === null || item[1] === "") return;
+                const detail = document.createElement("span");
+                detail.textContent = item[0] + ": " + String(item[1]);
+                meta.appendChild(detail);
+            });
+
+            card.append(heading, meta);
+            if (isPlaying(data) && playing) {
+                const nowPlaying = document.createElement("p");
+                nowPlaying.className = "multisync-playing";
+                nowPlaying.textContent = "Playing: " + String(playing);
+                card.appendChild(nowPlaying);
+            }
+            elements.multisyncList.appendChild(card);
         });
     }
 
