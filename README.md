@@ -25,8 +25,8 @@ The dashboard calls the local FPP REST API on the same player:
 
 - `GET /api/fppd/status` and `GET /api/playlists` for live state.
 - `GET /api/playlist/{name}?mergeSubs=1` for the selected playlist.
-- `POST /api/playlist/{name}/start`, `/api/playlists/resume`, `/api/playlists/pause`, `/api/playlists/stop`, and `/api/playlists/stopgracefully` for playback.
-- `POST /api/command/{command}` for next/previous playlist item.
+- `GET /api/command/Start%20Playlist/{name}/false/false/false` to start the selected playlist; `GET /api/playlists/resume`, `/api/playlists/pause`, `/api/playlists/stop`, and `/api/playlists/stopgracefully` for other playback controls.
+- `GET /api/command/Next%20Playlist%20Item` and `/api/command/Prev%20Playlist%20Item` to skip playlist items.
 - `POST /api/system/volume` for volume.
 - `GET /api/schedule`, `POST /api/schedule`, and `POST /api/schedule/reload` for schedule management.
 - `GET /api/fppd/multiSyncSystems` and `GET /api/system/status?type=FPP&ip[]=...` for MultiSync discovery and status.
