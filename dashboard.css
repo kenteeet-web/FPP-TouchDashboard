@@ -26,6 +26,74 @@
     box-sizing: border-box;
 }
 
+.touch-dashboard .festive-lights {
+    position: relative;
+    display: grid;
+    height: 39px;
+    grid-template-columns: repeat(18, minmax(0, 1fr));
+    gap: 4px;
+    margin: -14px 0 12px;
+}
+
+.touch-dashboard .festive-lights::before {
+    position: absolute;
+    top: 10px;
+    right: 4px;
+    left: 4px;
+    height: 2px;
+    border-radius: 50%;
+    background: #1d4937;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.8);
+    content: "";
+}
+
+.touch-dashboard .festive-lights span {
+    position: relative;
+    z-index: 1;
+    width: clamp(10px, 1.7vw, 16px);
+    height: 22px;
+    margin: 11px auto 0;
+    border-radius: 4px 4px 8px 8px;
+    background: var(--bulb-color);
+    box-shadow: 0 0 5px 2px var(--bulb-glow), 0 0 14px var(--bulb-glow);
+}
+
+.touch-dashboard .festive-lights span::before {
+    position: absolute;
+    top: -5px;
+    right: 2px;
+    left: 2px;
+    height: 6px;
+    border-radius: 2px 2px 0 0;
+    background: #39433e;
+    content: "";
+}
+
+.touch-dashboard .festive-lights .bulb-red {
+    --bulb-color: #e23e43;
+    --bulb-glow: rgba(226, 62, 67, 0.72);
+}
+
+.touch-dashboard .festive-lights .bulb-green {
+    --bulb-color: #36ba69;
+    --bulb-glow: rgba(54, 186, 105, 0.72);
+}
+
+.touch-dashboard .festive-lights .bulb-gold {
+    --bulb-color: #e3b52d;
+    --bulb-glow: rgba(227, 181, 45, 0.72);
+}
+
+.touch-dashboard .festive-lights .bulb-blue {
+    --bulb-color: #3376e8;
+    --bulb-glow: rgba(51, 118, 232, 0.72);
+}
+
+.touch-dashboard .festive-lights .bulb-purple {
+    --bulb-color: #a64de0;
+    --bulb-glow: rgba(166, 77, 224, 0.72);
+}
+
 .touch-dashboard .dashboard-header,
 .touch-dashboard .dashboard-actions,
 .touch-dashboard .settings-heading,
@@ -335,7 +403,7 @@
 
 .touch-dashboard .dashboard-grid {
     display: grid;
-    grid-template-columns: minmax(270px, 0.83fr) minmax(320px, 1.17fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 16px;
     align-items: stretch;
 }
@@ -564,7 +632,39 @@
     }
 
     .touch-dashboard .dashboard-grid {
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+        gap: 10px;
+    }
+
+    .touch-dashboard .controls-column,
+    .touch-dashboard .tracks-column {
+        padding: 14px 10px;
+    }
+
+    .touch-dashboard .playback-controls {
         grid-template-columns: 1fr;
+        gap: 7px;
+    }
+
+    .touch-dashboard .control-button {
+        min-height: 42px;
+        padding: 7px 8px;
+        font-size: 12px;
+    }
+
+    .touch-dashboard .track-row {
+        gap: 6px;
+        padding: 7px 6px;
+    }
+
+    .touch-dashboard .track-index {
+        min-width: 20px;
+        font-size: 11px;
+    }
+
+    .touch-dashboard .track-title,
+    .touch-dashboard .track-duration {
+        font-size: 11px;
     }
 
     .touch-dashboard .playing-content {
@@ -599,6 +699,16 @@
     }
 }
 
+@media (max-width: 480px) {
+    .touch-dashboard .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .touch-dashboard .playback-controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 420px) {
     .touch-dashboard .dashboard-header {
         align-items: flex-start;
@@ -616,10 +726,4 @@
         font-size: 10px;
     }
 
-    .touch-dashboard .control-button {
-        min-height: 44px;
-        gap: 6px;
-        padding: 8px 6px;
-        font-size: 12px;
-    }
 }

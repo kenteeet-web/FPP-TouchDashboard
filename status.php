@@ -1,4 +1,24 @@
 <div class="touch-dashboard" id="touch-dashboard">
+    <div class="festive-lights" aria-hidden="true">
+        <span class="bulb-red"></span>
+        <span class="bulb-green"></span>
+        <span class="bulb-gold"></span>
+        <span class="bulb-blue"></span>
+        <span class="bulb-purple"></span>
+        <span class="bulb-red"></span>
+        <span class="bulb-green"></span>
+        <span class="bulb-gold"></span>
+        <span class="bulb-blue"></span>
+        <span class="bulb-purple"></span>
+        <span class="bulb-red"></span>
+        <span class="bulb-green"></span>
+        <span class="bulb-gold"></span>
+        <span class="bulb-blue"></span>
+        <span class="bulb-purple"></span>
+        <span class="bulb-red"></span>
+        <span class="bulb-green"></span>
+        <span class="bulb-gold"></span>
+    </div>
     <header class="dashboard-header">
         <div>
             <p class="eyebrow" id="show-name">FALCON PLAYER</p>
