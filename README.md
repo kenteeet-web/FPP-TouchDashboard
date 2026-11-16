@@ -11,6 +11,7 @@ A touch-friendly Falcon Player (FPP) plugin for controlling show playback from a
 - Use the full-width navigation below Player Status to switch the right pane between Status, Schedules, Playlists, MultiSync, and FPP Settings; on wider screens, the header, player status, navigation, and playback controls stay visible while the right pane scrolls.
 - Browse playlists and their tracks, view a read-only MultiSync table with one reachable IP per FPP system, and edit schedules through FPP's API.
 - View and save Playback, Audio/Video, Input/Output, and User Interface settings from the FPP settings API.
+- Choose Christmas lights, Halloween ghosts, or spring flowers for the seasonal header decoration.
 - See the current schedule end time or the next scheduled start time in 24-hour format.
 - Responsive dark dashboard layout for touch screens.
 

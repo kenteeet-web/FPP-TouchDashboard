@@ -9,12 +9,13 @@
     --green-soft: #173c2b;
     --red: #e33a43;
     --amber: #e8ad35;
-    display: grid;
+    --season-accent: var(--green);
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100vh;
     height: 100dvh;
     min-height: 0;
-    grid-template-rows: auto auto auto auto minmax(0, 1fr);
     margin: 0;
     padding: 28px clamp(14px, 3vw, 36px) 36px;
     color: var(--text);
@@ -35,7 +36,18 @@ body.fpp-touch-dashboard-fullscreen {
     overflow: hidden;
 }
 
-.touch-dashboard > main,
+.touch-dashboard > main {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.touch-dashboard .now-playing,
+.touch-dashboard .screen-tabs {
+    flex: 0 0 auto;
+}
+
 .touch-dashboard > .dashboard-grid,
 .touch-dashboard .right-column {
     min-height: 0;
@@ -115,6 +127,40 @@ body.fpp-touch-dashboard-fullscreen {
     --bulb-glow: rgba(166, 77, 224, 0.72);
 }
 
+.touch-dashboard[data-season="halloween"] {
+    --season-accent: #dce1ea;
+}
+
+.touch-dashboard[data-season="spring"] {
+    --season-accent: #e985b5;
+}
+
+.touch-dashboard .festive-lights[data-season="halloween"]::before {
+    display: none;
+}
+
+.touch-dashboard .festive-lights[data-season="spring"]::before {
+    background: #527a43;
+    box-shadow: none;
+}
+
+.touch-dashboard .festive-lights[data-season="halloween"] span,
+.touch-dashboard .festive-lights[data-season="spring"] span {
+    width: auto;
+    height: auto;
+    margin: 4px auto 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    font-size: clamp(16px, 2vw, 24px);
+    line-height: 1;
+}
+
+.touch-dashboard .festive-lights[data-season="halloween"] span::before,
+.touch-dashboard .festive-lights[data-season="spring"] span::before {
+    display: none;
+}
+
 .touch-dashboard .dashboard-header,
 .touch-dashboard .dashboard-actions,
 .touch-dashboard .settings-heading,
@@ -130,6 +176,8 @@ body.fpp-touch-dashboard-fullscreen {
 
 .touch-dashboard .dashboard-header {
     margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--season-accent);
 }
 
 .touch-dashboard .dashboard-title-link {
@@ -139,7 +187,7 @@ body.fpp-touch-dashboard-fullscreen {
 
 .touch-dashboard .dashboard-title-link:hover,
 .touch-dashboard .dashboard-title-link:focus-visible {
-    color: var(--green);
+    color: var(--season-accent);
     text-decoration: underline;
 }
 
@@ -213,6 +261,10 @@ body.fpp-touch-dashboard-fullscreen {
 
 .touch-dashboard .settings-address-label {
     margin-top: 20px;
+}
+
+.touch-dashboard .settings-season-label {
+    margin-top: 16px;
 }
 
 .touch-dashboard .settings-input {
@@ -474,10 +526,12 @@ body.fpp-touch-dashboard-fullscreen {
 
 .touch-dashboard .dashboard-grid {
     display: grid;
+    flex: 1 1 0;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr);
     gap: 16px;
     align-items: stretch;
+    min-height: 0;
 }
 
 .touch-dashboard .controls-column {
@@ -1220,6 +1274,7 @@ body.fpp-touch-dashboard-fullscreen {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
         align-items: start;
+        flex: none;
     }
 
     .touch-dashboard .controls-column {
@@ -1234,6 +1289,10 @@ body.fpp-touch-dashboard-fullscreen {
         height: auto;
         min-height: 100vh;
         overflow: visible;
+    }
+
+    .touch-dashboard > main {
+        display: block;
     }
 
     body.fpp-touch-dashboard-fullscreen {
