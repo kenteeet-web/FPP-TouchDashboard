@@ -991,6 +991,22 @@
         return String(system && (system.ip || system.address) || "").trim().replace(/^\[|\]$/g, "");
     }
 
+    function systemAddressUrl(address) {
+        let value = String(address || "").trim();
+        if (!value) return "";
+        if (!/^https?:\/\//i.test(value)) {
+            const colonCount = (value.match(/:/g) || []).length;
+            if (colonCount > 1 && value.charAt(0) !== "[") value = "[" + value + "]";
+            value = "http://" + value;
+        }
+        try {
+            const url = new URL(value);
+            return url.protocol === "http:" || url.protocol === "https:" ? url.href : "";
+        } catch (error) {
+            return "";
+        }
+    }
+
     function isLocalSystem(system) {
         return String(system && system.local) === "1" || Boolean(system && system.local === true);
     }
@@ -1061,6 +1077,7 @@
 
         systems.forEach(function (system) {
             const address = systemAddress(system);
+            const addressUrl = systemAddressUrl(address);
             const local = isLocalSystem(system);
             const remoteStatus = local ? playerStatus : statusForAddress(statusData, address);
             const data = remoteStatus && typeof remoteStatus === "object" ? remoteStatus : system;
@@ -1092,8 +1109,14 @@
             ];
             metadata.forEach(function (item) {
                 if (item[1] === undefined || item[1] === null || item[1] === "") return;
-                const detail = document.createElement("span");
+                const detail = document.createElement(item[0] === "Address" && addressUrl ? "a" : "span");
                 detail.textContent = item[0] + ": " + String(item[1]);
+                if (item[0] === "Address" && addressUrl) {
+                    detail.href = addressUrl;
+                    detail.target = "_blank";
+                    detail.rel = "noopener noreferrer";
+                    detail.setAttribute("aria-label", "Open " + address + " in a new tab");
+                }
                 meta.appendChild(detail);
             });
 
