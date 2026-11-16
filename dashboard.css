@@ -1114,9 +1114,14 @@ body.fpp-touch-dashboard-fullscreen {
 }
 
 .touch-dashboard .control-button.danger-outline {
-    border-color: #74353a;
-    color: #ff9a9e;
-    background: #291719;
+    border-color: #65131d;
+    color: #fff;
+    background: #8b1e2d;
+}
+
+.touch-dashboard .control-button.danger-outline:hover:not(:disabled) {
+    border-color: #b34a55;
+    filter: brightness(1.12);
 }
 
 .touch-dashboard .control-message {

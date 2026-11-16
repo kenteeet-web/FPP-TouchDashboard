@@ -97,14 +97,14 @@
 
                 <p class="field-label playback-label">Playback controls</p>
                 <div class="playback-controls">
-                    <button class="control-button secondary" type="button" data-action="previous" aria-label="Previous track">
-                        <span aria-hidden="true">|&#x25C0;</span><span>Previous</span>
-                    </button>
                     <button class="control-button primary" type="button" data-action="play" aria-label="Play selected playlist">
                         <span aria-hidden="true">&#x25B6;</span><span>Play</span>
                     </button>
                     <button class="control-button secondary" type="button" data-action="pause" aria-label="Pause playback">
                         <span aria-hidden="true">&#x2016;</span><span>Pause</span>
+                    </button>
+                    <button class="control-button secondary" type="button" data-action="previous" aria-label="Previous track">
+                        <span aria-hidden="true">|&#x25C0;</span><span>Previous</span>
                     </button>
                     <button class="control-button secondary" type="button" data-action="next" aria-label="Next track">
                         <span aria-hidden="true">&#x25B6;|</span><span>Next</span>
