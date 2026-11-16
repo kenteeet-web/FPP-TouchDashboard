@@ -829,7 +829,23 @@
 
     function renderPlaylistTracks(container, name, data) {
         container.replaceChildren();
-        const tracks = playlistTracks(data, true);
+        const sectionDefinitions = [
+            { key: "leadIn", label: "Lead In" },
+            { key: "mainPlaylist", label: "Main Playlist" },
+            { key: "leadOut", label: "Lead Out" }
+        ];
+        const playlist = data && typeof data === "object" ? data : {};
+        const sections = sectionDefinitions.map(function (section) {
+            return {
+                label: section.label,
+                tracks: Array.isArray(playlist[section.key]) ? playlist[section.key].filter(Boolean) : []
+            };
+        }).filter(function (section) {
+            return section.tracks.length > 0;
+        });
+        const tracks = sections.reduce(function (all, section) {
+            return all.concat(section.tracks);
+        }, []);
         if (!tracks.length) {
             const empty = document.createElement("p");
             empty.className = "empty-tracks";
@@ -839,31 +855,45 @@
         }
 
         const activeIndex = currentTrackIndexForPlaylist(tracks, playerStatus, name);
-        const list = document.createElement("ol");
-        list.className = "track-list";
-        tracks.forEach(function (entry, index) {
-            const row = document.createElement("li");
-            row.className = "track-row" + (index === activeIndex ? " is-current" : "");
-            const position = document.createElement("span");
-            position.className = "track-index";
-            position.textContent = String(index + 1).padStart(2, "0");
-            const title = document.createElement("span");
-            title.className = "track-title";
-            title.textContent = trackTitle(entry);
-            title.title = title.textContent;
-            const duration = document.createElement("span");
-            duration.className = "track-duration";
-            duration.textContent = entry.duration ? formatTime(entry.duration) : "";
-            row.append(position, title, duration);
-            list.appendChild(row);
+        const groups = document.createElement("div");
+        groups.className = "playlist-track-sections";
+        let trackIndex = 0;
+        sections.forEach(function (section) {
+            const group = document.createElement("section");
+            group.className = "playlist-track-section";
+            const heading = document.createElement("h3");
+            heading.className = "playlist-track-section-heading";
+            heading.textContent = section.label;
+            const list = document.createElement("ol");
+            list.className = "track-list";
+            section.tracks.forEach(function (entry) {
+                const row = document.createElement("li");
+                row.className = "track-row" + (trackIndex === activeIndex ? " is-current" : "");
+                const position = document.createElement("span");
+                position.className = "track-index";
+                position.textContent = String(trackIndex + 1).padStart(2, "0");
+                const title = document.createElement("span");
+                title.className = "track-title";
+                title.textContent = trackTitle(entry);
+                title.title = title.textContent;
+                const duration = document.createElement("span");
+                duration.className = "track-duration";
+                duration.textContent = entry.duration ? formatTime(entry.duration) : "";
+                row.append(position, title, duration);
+                list.appendChild(row);
+                trackIndex += 1;
+            });
+            group.append(heading, list);
+            groups.appendChild(group);
         });
-        container.appendChild(list);
+        container.appendChild(groups);
         if (activeIndex >= 0) {
             const current = document.createElement("p");
             current.className = "tracks-current";
             current.textContent = "Now playing track " + (activeIndex + 1) + " of " + tracks.length;
             container.prepend(current);
         }
+        groups.scrollTop = 0;
     }
 
     async function loadPlaylistDetails(name, container, details) {

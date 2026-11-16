@@ -875,8 +875,32 @@ body.fpp-touch-dashboard-fullscreen {
     padding: 0 12px 12px;
 }
 
-.touch-dashboard .playlist-detail .track-list {
+.touch-dashboard .playlist-track-sections {
+    display: flex;
     max-height: 300px;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+.touch-dashboard .playlist-track-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.touch-dashboard .playlist-track-section-heading {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.touch-dashboard .playlist-detail .track-list {
+    max-height: none;
+    overflow-y: visible;
 }
 
 .touch-dashboard .setting-tip,
