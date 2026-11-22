@@ -857,6 +857,20 @@ body.fpp-touch-dashboard-fullscreen {
     font-size: 12px;
 }
 
+.touch-dashboard .schedule-input[type="date"] {
+    color-scheme: dark;
+}
+
+.touch-dashboard .schedule-date-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+}
+
+.touch-dashboard .schedule-date-controls .schedule-input {
+    min-width: 0;
+}
+
 .touch-dashboard .schedule-input:focus-visible,
 .touch-dashboard .setting-input:focus-visible,
 .touch-dashboard .setting-field select:focus-visible,
