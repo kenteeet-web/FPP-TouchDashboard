@@ -10,10 +10,10 @@ A touch-friendly Falcon Player (FPP) plugin for controlling show playback from a
 - View the current playlist, sequence/song, playback state, elapsed time, and remaining time.
 - Tap any playlist item in the status queue to start from it, including pause and command items; choose whether playback repeats with the Repeat checkbox.
 - Use the full-width navigation below Player Status to switch the right pane between Status, Schedules, Playlists, MultiSync, and FPP Settings; on wider screens, the header, player status, navigation, and playback controls stay visible while the right pane scrolls.
-- Browse playlists and their tracks, view compact MultiSync controller cards with one reachable IP per FPP system, and edit schedules through FPP's API.
+- Browse playlists and their tracks, view compact MultiSync controller cards with one reachable IP per FPP system, and edit schedules with date pickers and holidays from FPP's selected locale.
 - View and save Playback, Audio/Video, Input/Output, and User Interface settings from the FPP settings API.
 - Choose Christmas lights, Halloween ghosts, or spring flowers for the seasonal header decoration.
-- See the current schedule end time or the next scheduled start time in 24-hour format.
+- See the current schedule end time or the next scheduled start time in 24-hour or sunrise/sunset format.
 - Responsive dark dashboard layout for touch screens.
 
 ## Install

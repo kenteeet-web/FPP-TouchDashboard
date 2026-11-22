@@ -1,4 +1,25 @@
+<?php
+$touchDashboardHolidays = array();
+if (isset($settings['locale']['holidays']) && is_array($settings['locale']['holidays'])) {
+    foreach ($settings['locale']['holidays'] as $holiday) {
+        if (!is_array($holiday) || !isset($holiday['name'], $holiday['shortName'])) {
+            continue;
+        }
+        if (!is_string($holiday['name']) || !is_string($holiday['shortName'])
+            || $holiday['name'] === '' || $holiday['shortName'] === '') {
+            continue;
+        }
+        $touchDashboardHolidays[] = $holiday;
+    }
+}
+?>
 <div class="touch-dashboard" id="touch-dashboard" data-season="christmas">
+    <select id="schedule-holiday-options" hidden aria-hidden="true">
+        <option value="">Choose a holiday...</option>
+        <?php foreach ($touchDashboardHolidays as $holiday): ?>
+            <option value="<?= htmlspecialchars($holiday['shortName'], ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($holiday['name'], ENT_QUOTES, 'UTF-8') ?></option>
+        <?php endforeach; ?>
+    </select>
     <div class="festive-lights" aria-hidden="true">
         <span class="bulb-red"></span>
         <span class="bulb-green"></span>
@@ -64,7 +85,7 @@
                     <p class="schedule-time-label" id="schedule-time-label">FPP SCHEDULE</p>
                     <p class="schedule-time-note" id="schedule-time-note">Loading schedule information.</p>
                 </div>
-                <time class="schedule-time-value" id="schedule-time-value">--:--</time>
+                <span class="schedule-time-value" id="schedule-time-value">--:--</span>
             </div>
             <div class="progress-track" aria-hidden="true">
                 <div class="progress-value" id="progress-value"></div>

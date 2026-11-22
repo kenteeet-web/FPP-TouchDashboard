@@ -33,6 +33,7 @@
         volume: document.getElementById("volume-control"),
         volumeValue: document.getElementById("volume-value"),
         message: document.getElementById("control-message"),
+        scheduleHolidayOptions: document.getElementById("schedule-holiday-options"),
         trackCount: document.getElementById("track-count"),
         tracksCurrent: document.getElementById("tracks-current"),
         trackList: document.getElementById("track-list"),
@@ -243,6 +244,13 @@
         return { hours: hours, minutes: minutes, seconds: seconds };
     }
 
+    function scheduleSolarEvent(value) {
+        const normalized = String(value || "").trim().toLowerCase();
+        if (normalized === "sunrise" || normalized === "25:00:00") return "Sunrise";
+        if (normalized === "sunset" || normalized === "26:00:00") return "Sunset";
+        return null;
+    }
+
     function scheduleOccurrence(entry, date) {
         if (!(entry.enabled === true || String(entry.enabled) === "1")) return null;
         const startLimit = scheduleDate(entry.startDate);
@@ -287,6 +295,9 @@
         let next = null;
         scheduleEntries.forEach(function (entry) {
             if (!(entry.enabled === true || String(entry.enabled) === "1")) return;
+            const startClock = scheduleClock(entry.startTime);
+            const startEvent = scheduleSolarEvent(entry.startTime);
+            if (!startClock && !startEvent) return;
             const startLimit = scheduleDate(entry.startDate);
             const endLimit = scheduleDate(entry.endDate);
             let firstDate = today;
@@ -297,9 +308,24 @@
                 const date = addCalendarDays(firstDate, offset);
                 if (endLimit && date > endLimit) break;
                 if (!scheduleRunsOnDate(entry, date)) continue;
-                const occurrence = scheduleOccurrence(entry, date);
-                if (!occurrence || occurrence.start <= now) continue;
-                if (!next || occurrence.start < next.start) next = occurrence;
+                let start = null;
+                if (startClock) {
+                    start = new Date(date.getFullYear(), date.getMonth(), date.getDate(),
+                        startClock.hours, startClock.minutes, startClock.seconds);
+                    if (start <= now) continue;
+                }
+                const occurrence = {
+                    entry: entry,
+                    date: date,
+                    start: start,
+                    startEvent: startEvent
+                };
+                const earlierDate = !next || date < next.date;
+                const sameDate = next && date.getTime() === next.date.getTime();
+                const earlierClock = sameDate && start && next.start && start < next.start;
+                const earlierSolarEvent = sameDate && !start && !next.start
+                    && startEvent === "Sunrise" && next.startEvent === "Sunset";
+                if (earlierDate || earlierClock || earlierSolarEvent) next = occurrence;
                 break;
             }
         });
@@ -337,13 +363,15 @@
         const next = nextScheduleOccurrence(now);
         if (next) {
             elements.scheduleTimeLabel.textContent = "NEXT SCHEDULE STARTS";
-            elements.scheduleTimeNote.textContent = scheduleDateLabel(next.start, now);
-            elements.scheduleTimeValue.textContent = formatClockTime(next.start);
+            elements.scheduleTimeNote.textContent = scheduleDateLabel(next.date, now);
+            elements.scheduleTimeValue.textContent = next.start
+                ? formatClockTime(next.start)
+                : next.startEvent;
             return;
         }
 
         elements.scheduleTimeLabel.textContent = "NEXT SCHEDULE";
-        elements.scheduleTimeNote.textContent = "No upcoming schedule with a standard clock time.";
+        elements.scheduleTimeNote.textContent = "No upcoming schedule.";
         elements.scheduleTimeValue.textContent = "--:--";
     }
 
@@ -511,6 +539,13 @@
             field.append(label, input);
             return field;
         }
+        if (input.classList.contains("schedule-date-controls")) {
+            const label = document.createElement("span");
+            label.className = "schedule-field-caption";
+            label.textContent = labelText;
+            field.append(label, input);
+            return field;
+        }
         const label = document.createElement("label");
         label.textContent = labelText;
         label.appendChild(input);
@@ -524,12 +559,60 @@
         input.type = type;
         input.dataset.scheduleField = field;
         input.value = value == null ? "" : String(value);
-        if (field === "startDate" || field === "endDate") input.placeholder = "YYYY-MM-DD";
         if (field === "startTime" || field === "endTime") {
             input.placeholder = "HH:MM:SS (25/26:00:00 = sunrise/sunset)";
             input.inputMode = "numeric";
         }
         return input;
+    }
+
+    function scheduleDateControls(field, value) {
+        const savedValue = value == null ? "" : String(value);
+        const isCalendarDate = Boolean(scheduleDate(savedValue));
+        const dateInput = scheduleInput(field, isCalendarDate ? savedValue : "", "date");
+        const label = field === "startDate" ? "Start date" : "End date";
+        dateInput.setAttribute("aria-label", label);
+
+        const holidaySelect = document.createElement("select");
+        holidaySelect.className = "schedule-input";
+        holidaySelect.dataset.scheduleField = field + "Holiday";
+        holidaySelect.setAttribute("aria-label", label + " holiday");
+
+        if (elements.scheduleHolidayOptions) {
+            Array.from(elements.scheduleHolidayOptions.options).forEach(function (sourceOption) {
+                const option = document.createElement("option");
+                option.value = sourceOption.value;
+                option.textContent = sourceOption.textContent;
+                holidaySelect.appendChild(option);
+            });
+        } else {
+            const option = document.createElement("option");
+            option.value = "";
+            option.textContent = "Choose a holiday...";
+            holidaySelect.appendChild(option);
+        }
+
+        const hasSavedHoliday = !isCalendarDate && savedValue
+            && Array.from(holidaySelect.options).some(function (option) { return option.value === savedValue; });
+        if (!isCalendarDate && savedValue && !hasSavedHoliday) {
+            const option = document.createElement("option");
+            option.value = savedValue;
+            option.textContent = savedValue + " (not in FPP holiday list)";
+            holidaySelect.appendChild(option);
+        }
+        holidaySelect.value = isCalendarDate ? "" : savedValue;
+
+        dateInput.addEventListener("change", function () {
+            if (dateInput.value) holidaySelect.value = "";
+        });
+        holidaySelect.addEventListener("change", function () {
+            if (holidaySelect.value) dateInput.value = "";
+        });
+
+        const controls = document.createElement("div");
+        controls.className = "schedule-date-controls";
+        controls.append(dateInput, holidaySelect);
+        return controls;
     }
 
     function renderSchedules() {
@@ -641,9 +724,9 @@
                 fields.appendChild(scheduleField("Playlist", playlist));
             }
 
-            fields.appendChild(scheduleField("Start date", scheduleInput("startDate", entry.startDate, "text")));
+            fields.appendChild(scheduleField("Start date", scheduleDateControls("startDate", entry.startDate)));
             fields.appendChild(scheduleField("Start time", scheduleInput("startTime", entry.startTime, "text")));
-            fields.appendChild(scheduleField("End date", scheduleInput("endDate", entry.endDate, "text")));
+            fields.appendChild(scheduleField("End date", scheduleDateControls("endDate", entry.endDate)));
             fields.appendChild(scheduleField("End time", scheduleInput("endTime", entry.endTime, "text")));
 
             const repeat = document.createElement("input");
@@ -766,6 +849,10 @@
             function value(field) {
                 return card.querySelector('[data-schedule-field="' + field + '"]');
             }
+            function dateValue(field) {
+                const holiday = value(field + "Holiday");
+                return holiday.value || value(field).value;
+            }
             entry.day = Number(value("day").value);
             if (entry.day === 65536) {
                 entry.day += Array.from(card.querySelectorAll("[data-schedule-day-mask]")).reduce(function (mask, checkbox) {
@@ -783,9 +870,9 @@
                 entry.playlist = value("playlist").value;
                 entry.sequence = type === "sequence" ? 1 : 0;
             }
-            entry.startDate = value("startDate").value;
+            entry.startDate = dateValue("startDate");
             entry.startTime = value("startTime").value;
-            entry.endDate = value("endDate").value;
+            entry.endDate = dateValue("endDate");
             entry.endTime = value("endTime").value;
             entry.repeat = type === "command" ? 0 : (value("repeat").checked ? 1 : 0);
             entry.stopType = Number(value("stopType").value || 0);
