@@ -34,3 +34,4 @@ The dashboard calls the local FPP REST API on the same player:
 - `GET /api/settings`, `GET /api/settings/{name}`, and `PUT /api/settings/{name}` for Playback, Audio/Video, Input/Output, and User Interface settings.
 
 The settings gear lets the user set a show name and the FPP IP address or URL used to open the dashboard. The show name appears as a link to the full FPP interface, opened in a new tab; if no show name is set, the title is **Falcon Player**. These settings are saved in the current browser's local storage. The address must match the page origin because FPP blocks cross-origin playback commands. The plugin does not use analytics or third-party telemetry.
+<img width="1080" height="2340" alt="Screenshot_20261118_124001_Chrome" src="https://github.com/user-attachments/assets/9bfb0333-9518-43fe-888b-bc4f8452dd29" />
